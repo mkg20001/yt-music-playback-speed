@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube Music Playback Speed
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Allows to adjust the playback speed on youtube music web
 // @author       Maciej Krüger (mkg20001@gmail.com)
 // @match        https://music.youtube.com/*
@@ -68,13 +68,13 @@
         storeSpeed(playbackSpeed)
 
         div.append(signBtn('-', (e) => {
-          e.preventDefault()
-          adjRate(e.shiftKey ? -0.01 : -0.1)
+            e.preventDefault()
+            adjRate(e.shiftKey ? -0.01 : -0.1)
         }))
         div.append(s)
         div.append(signBtn('+', (e) => {
-          e.preventDefault()
-          adjRate(e.shiftKey ? 0.01 : 0.1)
+            e.preventDefault()
+            adjRate(e.shiftKey ? 0.01 : 0.1)
         }))
 
         bar.append(div)
@@ -94,6 +94,12 @@
         })
         */
 
+        v.addEventListener('ratechange', (e) => { // if yt decides to mess with the script then don't let it lol
+            if (v.playbackRate !== playbackSpeed) { // prevent loops
+                applySpeed()
+            }
+        })
+
         v.addEventListener('loadeddata', (e) => {
             applySpeed()
         })
@@ -106,4 +112,4 @@
         register()
         clearInterval(intv)
     }, 100)
- })();
+    })();
