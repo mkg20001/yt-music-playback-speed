@@ -1,5 +1,7 @@
 # yt-music-playback-speed
 
+<a class="github-button" href="https://github.com/mkg20001/yt-music-playback-speed" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" aria-label="Star mkg20001/yt-music-playback-speed on GitHub">Star</a>
+
 A tampermonkey script to modify playback speed on youtube music
 
 ![screenshot](./screenshot.png)
