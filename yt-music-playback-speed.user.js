@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         YouTube Music Playback Speed
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Allows to adjust the playback speed on youtube music web
 // @author       Maciej Krüger (mkg20001@gmail.com)
 // @match        https://music.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?domain=music.youtube.com
-// @grant        none
+// @grant GM_setValue
+// @grant GM_getValue
 // ==/UserScript==
 
 // Contrib at https://github.com/mkg20001/yt-music-playback-speed
@@ -14,7 +15,7 @@
 (function() {
     'use strict';
 
-    let playbackSpeed = 1
+    let playbackSpeed = GM_getValue('speed') || 1
 
     const log = console.log.bind(console)
 
@@ -27,6 +28,7 @@
     function storeSpeed(speed) {
         log('ratechange: was %o, is %o', speed, v.playbackRate)
         playbackSpeed = speed
+        GM_setValue('speed', speed)
         if (s) {
             s.textContent = playbackSpeed.toFixed(2) + 'x'
         }
@@ -67,12 +69,12 @@
 
         div.append(signBtn('-', (e) => {
           e.preventDefault()
-          adjRate(-0.1)
+          adjRate(e.shiftKey ? -0.01 : -0.1)
         }))
         div.append(s)
         div.append(signBtn('+', (e) => {
           e.preventDefault()
-          adjRate(0.1)
+          adjRate(e.shiftKey ? 0.01 : 0.1)
         }))
 
         bar.append(div)
@@ -83,9 +85,14 @@
 
         log('registering')
 
+        /*
+        TODO: interopability with other playback speed controller extensions
+        currently this causes trouble as ratechange sometimes fires because of yt music's code
+
         v.addEventListener('ratechange', (e) => {
             storeSpeed(v.playbackRate)
         })
+        */
 
         v.addEventListener('loadeddata', (e) => {
             applySpeed()
