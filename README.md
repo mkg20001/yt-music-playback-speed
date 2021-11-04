@@ -20,5 +20,4 @@ Install Tampermonkey Extension
 - How to https://www.youtube.com/watch?v=8tyjJD65zws
 - Download https://www.tampermonkey.net/
 
-Install userscript
-- todo
+[ » Install userscript ](https://github.com/mkg20001/yt-music-playback-speed/raw/master/yt-music-playback-speed.user.js)
